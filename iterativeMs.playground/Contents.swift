@@ -6,9 +6,11 @@ public func mergeSort<Element>(_ array: inout [Element]) -> [Element] where Elem
     let n = array.count
     
     while (partSize < n) {
+        // Start from the left-most elements
         var leftIndex = 0
         
         while (leftIndex <= n) {
+            // Get the other end of partition
             let rightIndex = min(leftIndex + (partSize*2 - 1), n - 1)
             var middle = (leftIndex + rightIndex) / 2
             
@@ -17,11 +19,14 @@ public func mergeSort<Element>(_ array: inout [Element]) -> [Element] where Elem
                 middle = rightIndex - (n % partSize)
             }
             
+            // Get both parts of the array that will get merged
             let left = Array(array[..<middle])
             let right = Array(array[middle...])
             array = merge(left, right)
+            // Move to the next partition
             leftIndex += partSize * 2
         }
+        // Invrease the size of partition
         partSize *= 2
     }
     
@@ -67,5 +72,10 @@ private func merge<Element>(_ left: [Element], _ right: [Element]) -> [Element] 
 }
 
 
-var array = [10, 7, 0, 3, 8]
-print("Merge sorted!: \(mergeSort(&array))")
+var array1 = [10, 7, 0, 3, 8]
+print("Merge sorted!: \(mergeSort(&array1))")
+// Output: Merge sorted!: [0, 3, 7, 8, 10]
+
+var array2 = [30, 7, 2, 10, 9]
+print("Merge sorted!: \(mergeSort(&array2))")
+// Output: Merge sorted!: [2, 7, 9, 10, 30]
